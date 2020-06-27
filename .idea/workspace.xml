@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c36fc2ac-691a-4d43-af99-f442424c02e9" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1dvAQitIE0o1Bs35Ow25gAci9Sk" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.osgi.project.settings" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c36fc2ac-691a-4d43-af99-f442424c02e9" name="Default Changelist" comment="" />
+      <created>1593295178639</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1593295178639</updated>
+      <workItem from="1593295182129" duration="829000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="-1472" y="928" key="#Project_Structure" timestamp="1593295983819">
+      <screen x="-1920" y="807" width="1920" height="1080" />
+    </state>
+    <state x="-1472" y="928" key="#Project_Structure/0.0.2560.1440/-1920.807.1920.1080/2560.320.1792.1120@-1920.807.1920.1080" timestamp="1593295983819" />
+    <state x="-1333" y="1043" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1593295891813">
+      <screen x="-1920" y="807" width="1920" height="1080" />
+    </state>
+    <state x="-1333" y="1043" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.2560.1440/-1920.807.1920.1080/2560.320.1792.1120@-1920.807.1920.1080" timestamp="1593295891813" />
+    <state x="-1333" y="1043" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.23.2560.1417/-1920.807.1920.1080/2560.343.1792.1097@-1920.807.1920.1080" timestamp="1593295286020" />
+    <state x="-1537" y="969" key="new project wizard" timestamp="1593295883983">
+      <screen x="-1920" y="807" width="1920" height="1080" />
+    </state>
+    <state x="-1537" y="969" key="new project wizard/0.0.2560.1440/-1920.807.1920.1080/2560.320.1792.1120@-1920.807.1920.1080" timestamp="1593295883983" />
+  </component>
+</project>
