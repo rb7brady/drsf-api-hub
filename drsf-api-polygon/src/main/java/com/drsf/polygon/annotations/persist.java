@@ -1,2 +1,11 @@
-package com.drsf.polygon.annotations;public @interface persist {
+package com.drsf.polygon.annotations;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+@Retention(RetentionPolicy.RUNTIME)
+public @interface persist {
+
+    public boolean key() default false ;
+
 }

@@ -56,5 +56,12 @@ public class PolygonReqResWebClient {
         return buildWebClient().get().uri(PolygonEndpoint.HISTORIC_NBBO.getURI(), params).retrieve().bodyToMono(HistoricQuotes.class);
     }
 
+    public Mono<Object> getMonoObject(String ... params) {
+        return buildWebClient().get().uri(PolygonEndpoint.FINANCIALS.getURI(), params).retrieve().bodyToMono(Object.class);
+    }
+
+    public Mono<Object> getMonoObject(PolygonEndpoint URI, String ... params) {
+        return buildWebClient().get().uri(URI.getURI(), params).retrieve().bodyToMono(Object.class);
+    }
 
 }

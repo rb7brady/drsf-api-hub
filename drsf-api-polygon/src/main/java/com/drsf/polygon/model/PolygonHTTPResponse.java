@@ -1,11 +1,11 @@
 package com.drsf.polygon.model;
 
-public class PolygonHTTPResponse<T> {
+import com.drsf.polygon.config.PolygonEndpoint;
+import reactor.core.publisher.Mono;
 
-    public PolygonHTTPResponse(){
+public interface PolygonHTTPResponse<T> {
 
-    }
-
+    public Mono<T> getMonoObject(PolygonEndpoint URI, String ... params);
 
 
 

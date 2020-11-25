@@ -1,2 +1,4 @@
-package com.drsf.polygon.model;public class Financials {
+package com.drsf.polygon.model;
+
+public class Financials {
 }

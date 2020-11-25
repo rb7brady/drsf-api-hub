@@ -22,6 +22,10 @@ public class Application implements ApplicationRunner {
 
         try {
             ApplicationContext context = SpringApplication.run(Application.class, args);
+
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
             log.debug(e.getLocalizedMessage());
