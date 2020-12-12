@@ -2,18 +2,20 @@ package com.drsf.api.polygon.model;
 
 import com.drsf.api.polygon.annotations.persist;
 
+import java.util.Date;
+
 
 public class DividendResult {
 
         String ticker;
         @persist
-        Long exDate;
+        Date exDate;
         @persist
-        Long paymentDate;
+        Date paymentDate;
         @persist(key = true)
-        Long recordDate;
+        Date recordDate;
         @persist
-        Long declaredDate;
+        Date declaredDate;
         @persist
         double amount;
 
@@ -24,25 +26,25 @@ public class DividendResult {
         public void setTicker(String ticker) {
             this.ticker = ticker;
         }
-        public Long getExDate() {
+        public Date getExDate() {
             return exDate;
         }
-        public void setExDate(Long exDate) {
+        public void setExDate(Date exDate) {
             this.exDate = exDate;
         }
-        public Long getPaymentDate() {
+        public Date getPaymentDate() {
             return paymentDate;
         }
 
-        public void setPaymentDate(Long paymentDate) {
+        public void setPaymentDate(Date paymentDate) {
             this.paymentDate = paymentDate;
         }
 
-        public Long getRecordDate() {
+        public Date getRecordDate() {
             return recordDate;
         }
 
-        public void setRecordDate(Long recordDate) {
+        public void setRecordDate(Date recordDate) {
             this.recordDate = recordDate;
         }
 
@@ -54,11 +56,11 @@ public class DividendResult {
             this.amount = amount;
         }
 
-    public Long getDeclaredDate() {
+    public Date getDeclaredDate() {
         return declaredDate;
     }
 
-    public void setDeclaredDate(Long declaredDate) {
+    public void setDeclaredDate(Date declaredDate) {
         this.declaredDate = declaredDate;
     }
 }

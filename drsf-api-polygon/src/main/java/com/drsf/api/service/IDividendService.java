@@ -1,2 +1,12 @@
-package com.drsf.api.service;public class IDividendService {
+package com.drsf.api.service;
+
+
+import com.drsf.api.entities.Dividend;
+
+import java.util.List;
+
+public interface IDividendService {
+
+    List<Dividend> findAll();
+
 }

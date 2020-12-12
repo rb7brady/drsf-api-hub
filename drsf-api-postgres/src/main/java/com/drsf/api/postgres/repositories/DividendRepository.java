@@ -1,8 +1,7 @@
-package drsf.api.postgres.repositories;
+package com.drsf.api.postgres.repositories;
 
-import com.drsf.entities.Dividend;
+import com.drsf.api.entities.Dividend;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

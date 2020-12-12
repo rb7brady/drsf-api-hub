@@ -78,3 +78,8 @@ target/*
 */.idea
 *.iml
 */*.iml
+
+.DS_STORE
+*/.DS_STORE
+*/*/.DS_STORE
+*/*.DS_Store

@@ -182,3 +182,7 @@ fabric.properties
 
 *.iml
 .idea
+/dsrf-api-meta/
+dsrf-api-meta/target
+app.log
+.DS_Store

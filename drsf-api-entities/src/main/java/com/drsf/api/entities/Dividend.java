@@ -1,10 +1,10 @@
-package com.drsf.entities;
+package com.drsf.api.entities;
 
 import java.util.Date;
 import javax.persistence.*;
 
 @Entity
-public class Dividend extends SecurityBase implements SecurityEntity {
+public class Dividend {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
@@ -55,12 +55,10 @@ public class Dividend extends SecurityBase implements SecurityEntity {
         this.amount = amount;
     }
 
-    @Override
     public String getTicker() {
         return ticker;
     }
 
-    @Override
     public void setTicker(String ticker) {
         this.ticker = ticker;
     }
