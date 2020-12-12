@@ -1,14 +1,19 @@
-package com.drsf.api.entities;
+package com.drsf.entities;
 
 import java.util.Date;
+import javax.persistence.*;
 
+@Entity
 public class Dividend extends SecurityBase implements SecurityEntity {
-
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     protected Date exDate;
     protected Date paymentDate;
     protected Date recordDate;
     protected Date declaredDate;
     protected double amount;
+    protected String ticker;
 
     public Date getExDate() {
         return exDate;
@@ -48,5 +53,15 @@ public class Dividend extends SecurityBase implements SecurityEntity {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public String getTicker() {
+        return ticker;
+    }
+
+    @Override
+    public void setTicker(String ticker) {
+        this.ticker = ticker;
     }
 }
