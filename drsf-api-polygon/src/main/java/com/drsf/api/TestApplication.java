@@ -1,6 +1,5 @@
 package com.drsf.api;
 
-import com.drsf.api.repository.DividendRepositoryTest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,10 +13,6 @@ public class TestApplication {
         SpringApplication.run(TestApplication.class,args);
     }
 
-    @Bean
-    public String demo(DividendRepositoryTest repository) {
-            return null;
-    }
 
 
 }

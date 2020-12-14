@@ -9,28 +9,38 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>drsf-api-postgres</artifactId>
+    <artifactId>drsf-api-web</artifactId>
 
     <properties>
         <java.version>1.8</java.version>
-
     </properties>
+
+
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
             <groupId>groupId</groupId>
-            <artifactId>drsf-api-entities</artifactId>
+            <artifactId>drsf-api-polygon</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>4.1.4.Final</version>
+            <version>5.4.10.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>groupId</groupId>
+            <artifactId>drsf-api-robinhood</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

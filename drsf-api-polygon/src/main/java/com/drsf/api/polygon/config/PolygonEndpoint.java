@@ -10,7 +10,8 @@ public enum PolygonEndpoint {
     OPEN_CLOSE("/v1/open-close/", OpenClose.class),
     HISTORIC_NBBO("/v2/ticks/stocks/nbbo/", HistoricQuotes.class),
     FINANCIALS("/v2/reference/financials/", Financials.class),
-    DIVIDENDS("v2/reference/dividends/",Dividends.class);
+    DIVIDENDS("v2/reference/dividends/",Dividends.class),
+    COMPANY("/v1/meta/symbols/", Company.class);
 
     public static String baseUrl = "https://api.polygon.io/";
     private String apiKeyParam = "?apiKey={key}";

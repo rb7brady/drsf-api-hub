@@ -1,4 +1,4 @@
-package com.drsf.api.repository;
+package com.drsf.api.repositories;
 
 public interface GenericRepository
         //extends SimpleJpaRepository<Dividend, Long>

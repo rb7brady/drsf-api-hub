@@ -1,5 +1,6 @@
 package com.drsf.api.polygon;
 
+import com.drsf.api.entities.LinkedAccount;
 import com.drsf.api.polygon.config.PolygonEndpoint;
 import com.drsf.api.polygon.config.UserConf;
 import com.drsf.api.polygon.model.DividendResult;
@@ -8,6 +9,7 @@ import com.drsf.api.polygon.model.HistoricQuotes;
 import com.drsf.api.polygon.service.MockUserConfigurationService;
 import com.drsf.api.polygon.service.PolygonProxy;
 import com.drsf.api.entities.Dividend;
+import com.drsf.api.postgres.repositories.LinkedAccountRepository;
 import com.dsrf.api.meta.HttpQueryMeta;
 import com.google.gson.*;
 import com.drsf.api.postgres.repositories.DividendRepository;
@@ -41,6 +43,8 @@ public class PolygonController {
     @Autowired
     DividendRepository repository;
 
+    @Autowired
+    LinkedAccountRepository linkedAccountRepository;
 //    @Autowired
 //    SimpleJpaRepository simpleJpaRepository;
 //
@@ -133,7 +137,7 @@ public class PolygonController {
         return obj;
     }
 
-    @GetMapping("/financials")
+    @GetMapping("/fin")
     public Object finance(@RequestParam(value = "sym") String sym) {
         HttpQueryMeta query = new HttpQueryMeta();
         query.putBaseEndpoint(PolygonEndpoint.getBaseUrl());
@@ -167,11 +171,13 @@ public class PolygonController {
     @GetMapping("/div")
     public Object div(@RequestParam(value = "sym") String sym) {
 
+
+        LinkedAccount linkedAccount = linkedAccountRepository.findByUsernameAndType("", "ALPACA");
         HttpQueryMeta query = new HttpQueryMeta();
         query.putBaseEndpoint(PolygonEndpoint.getBaseUrl());
         query.putParamaterizedURI(PolygonEndpoint.DIVIDENDS.getURI());
         query.putURIParamValue(sym);
-        query.putParameterizedOptional("apiKey", userConf.getAlpacaPublic());
+        query.putParameterizedOptional("apiKey", linkedAccount.getSimpleToken());
 
         //String filePath = "src/main/resources/dataStore/" + "dividends/" + sym + ".csv";
         //Mono<Object> convertedMonoEntity = polygonProxy.queryAsMono(query);

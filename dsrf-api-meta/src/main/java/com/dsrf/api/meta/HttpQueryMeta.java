@@ -9,9 +9,12 @@ import java.util.stream.Stream;
 
 public class HttpQueryMeta extends QueryMeta {
 
+    public void putExpectedClass(Class expectedClass) {
+        this.put("expectedClass", expectedClass);
+    }
+
     public void putBaseEndpoint(String endpoint) {
         this.put("URL", endpoint);
-
     }
 
     public void putParamaterizedURI(String uri) {
@@ -36,6 +39,17 @@ public class HttpQueryMeta extends QueryMeta {
         this.put("optionalParams",optionalParams);
     }
 
+    public void putHeader(String name, String value) {
+        Map<String, Object> headers  = (HashMap<String, Object>) this.getOrDefault("headers", new HashMap<String, Object>());
+        headers.putIfAbsent(name, value);
+        this.put("headers", headers);
+    }
+
+    public void putBodyAttribute(String name, String value) {
+        Map<String, String> body = (HashMap<String, String>) this.getOrDefault("body", new HashMap<String, String>());
+        body.putIfAbsent(name, value);
+        this.put("body",body);
+    }
 
     public List<Object> getAllParamValues() {
        // List<Object> requiredParams = (List<String>) this.getOrDefault("requiredParams", new ArrayList<String>());

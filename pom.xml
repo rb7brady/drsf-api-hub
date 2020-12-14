@@ -19,6 +19,8 @@
         <module>dsrf-api-meta</module>
         <module>drsf-api-entities</module>
         <module>drsf-api-postgres</module>
+        <module>drsf-api-robinhood</module>
+        <module>drsf-api-web</module>
     </modules>
     <dependencies>
         <dependency>
