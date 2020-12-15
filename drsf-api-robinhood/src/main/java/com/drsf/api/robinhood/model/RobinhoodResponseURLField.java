@@ -1,2 +1,7 @@
-package com.drsf.api.robinhood.model;public class RobinhoodResponseURLField {
+package com.drsf.api.robinhood.model;
+
+public class RobinhoodResponseURLField {
+
+
+
 }

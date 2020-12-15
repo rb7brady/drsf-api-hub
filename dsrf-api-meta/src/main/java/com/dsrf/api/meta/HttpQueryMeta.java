@@ -1,65 +1,105 @@
 package com.dsrf.api.meta;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class HttpQueryMeta extends QueryMeta {
+    public static final String EXPECTED_CLASS = "expectedClass";
+    public static final String URL = "URL";
+    public static final String URI = "URI";
+    public static final String REQUIRED_PARAMS = "requiredParams";
+    public static final String OPTIONAL_PARAMS = "optionalParams";
+    public static final String HEADERS = "headers";
+    public static final String BODY = "body";
 
-    public void putExpectedClass(Class expectedClass) {
-        this.put("expectedClass", expectedClass);
+
+    public HttpQueryMeta putExpectedClass(Class expectedClass) {
+        this.put(EXPECTED_CLASS, expectedClass);
+        return this;
     }
 
-    public void putBaseEndpoint(String endpoint) {
-        this.put("URL", endpoint);
+    public HttpQueryMeta putBaseEndpoint(String endpoint) {
+        this.put(URL, endpoint);
+        return this;
     }
 
-    public void putParamaterizedURI(String uri) {
-        this.put("URI", uri);
+    public HttpQueryMeta putParamaterizedURI(String uri) {
+        this.put(URI, uri);
+        return this;
     }
 
-    public void putURIParamValue(Object value) {
-//        List<String> requiredParams = (List<String>) this.getOrDefault("requiredParams", new ArrayList<String>());
-//        requiredParams.add((String) value);
-//        this.put("requiredParams", requiredParams);
-
+    public HttpQueryMeta putURIParamValue(Object value) {
         if (value != null) {
-            Map<String, Object> requiredParams = (HashMap<String, Object>) this.getOrDefault("requiredParams", new HashMap<String, Object>());
+            Map<String, Object> requiredParams = (HashMap<String, Object>) this.getOrDefault(REQUIRED_PARAMS, new HashMap<String, Object>());
             requiredParams.putIfAbsent(value.toString(), value);
-            this.put("requiredParams", requiredParams);
+            this.put(REQUIRED_PARAMS, requiredParams);
         }
+        return this;
     }
 
-    public void putParameterizedOptional(String name, Object value) {
-        Map<String, Object> optionalParams  = (HashMap<String, Object>) this.getOrDefault("optionalParams", new HashMap<String, Object>());
+    public HttpQueryMeta putParameterizedOptional(String name, Object value) {
+        Map<String, Object> optionalParams = (HashMap<String, Object>) this.getOrDefault(OPTIONAL_PARAMS, new HashMap<String, Object>());
         optionalParams.putIfAbsent(name, value);
-        this.put("optionalParams",optionalParams);
+        this.put(OPTIONAL_PARAMS, optionalParams);
+        return this;
     }
 
-    public void putHeader(String name, String value) {
-        Map<String, Object> headers  = (HashMap<String, Object>) this.getOrDefault("headers", new HashMap<String, Object>());
+    public HttpQueryMeta putParameterizedOptionalNullExcluded(String name, Object value) {
+        if (StringUtils.isNotEmpty(name) && value != null) {
+            return putParameterizedOptional(name, value);
+        }
+        return this;
+    }
+
+    public HttpQueryMeta putHeader(String name, String value) {
+        Map<String, Object> headers  = (HashMap<String, Object>) this.getOrDefault(HEADERS, new HashMap<String, Object>());
         headers.putIfAbsent(name, value);
-        this.put("headers", headers);
+        this.put(HEADERS, headers);
+        return this;
     }
 
-    public void putBodyAttribute(String name, String value) {
-        Map<String, String> body = (HashMap<String, String>) this.getOrDefault("body", new HashMap<String, String>());
+    public HttpQueryMeta putBodyAttribute(String name, String value) {
+        Map<String, String> body = (HashMap<String, String>) this.getOrDefault(BODY, new HashMap<String, String>());
         body.putIfAbsent(name, value);
-        this.put("body",body);
+        this.put(BODY,body);
+        return this;
+    }
+
+    public HttpQueryMeta clearAll() {
+        this.clear();
+        return this;
     }
 
     public List<Object> getAllParamValues() {
-       // List<Object> requiredParams = (List<String>) this.getOrDefault("requiredParams", new ArrayList<String>());
 
-       return  Stream.concat(
-                //((List<String>) this.getOrDefault("requiredParams", new ArrayList<String>())).stream()
-       (((HashMap<String, String>) this.getOrDefault("requiredParams", new HashMap<String, String>())).values().stream().collect(Collectors.toList())).stream(),
-
-        (((HashMap<String, String>) this.getOrDefault("optionalParams", new HashMap<String, String>())).values().stream().collect(Collectors.toList())).stream()
-        ).collect(Collectors.toList());
+       return Stream
+               .concat(
+                       (((HashMap<String, String>) this.getOrDefault(REQUIRED_PARAMS, new HashMap<String, String>())).values().stream().collect(Collectors.toList())).stream(),
+                       (((HashMap<String, String>) this.getOrDefault(OPTIONAL_PARAMS, new HashMap<String, String>())).values().stream().collect(Collectors.toList())).stream()
+               ).collect(Collectors.toList());
     }
+
+    public boolean hasHeaders () {
+        return this.get(HEADERS) != null;
+    }
+
+    public boolean hasBody () {
+        return this.get(BODY) != null;
+    }
+
+    public boolean hasURI() { return this.get(URI) != null; }
+
+    public boolean hasRequiredParams() { return this.get(REQUIRED_PARAMS) !=null; }
+
+    public boolean hasOptionalParams() { return this.get(OPTIONAL_PARAMS) != null; }
+
+    public boolean hasExpectedClass() {
+        return this.get(EXPECTED_CLASS) != null;
+    }
+
 
 }

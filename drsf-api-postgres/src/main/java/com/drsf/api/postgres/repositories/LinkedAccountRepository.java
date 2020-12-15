@@ -12,4 +12,6 @@ public interface LinkedAccountRepository extends JpaRepository<LinkedAccount, Lo
 
     public List<LinkedAccount> findAllByUsername(String username);
 
+    public String findBearerTokenByUsernameAndType(String username, String type);
+
 }

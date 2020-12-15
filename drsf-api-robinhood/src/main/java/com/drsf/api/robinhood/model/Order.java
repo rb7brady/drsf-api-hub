@@ -1,5 +1,6 @@
 package com.drsf.api.robinhood.model;
 
+import com.drsf.api.robinhood.RobinhoodResponsePropertyURL;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,245 +10,247 @@ import java.util.List;
 public class Order {
 
     @JsonProperty("id")
-    private String id;
+    private Object id;
     @JsonProperty("ref_id")
-    private String refId;
+    private Object refId;
     @JsonProperty("url")
-    private String url;
+    private Object url;
+    @RobinhoodResponsePropertyURL(requiresAuthentication = true)
     @JsonProperty("account")
-    private String account;
+    private Object account;
     @JsonProperty("position")
-    private String position;
+    private Object position;
     @JsonProperty("cancel")
-    private String cancel;
+    private Object cancel;
+    @RobinhoodResponsePropertyURL
     @JsonProperty("instrument")
-    private String instrument;
+    private Object instrument;
     @JsonProperty("cumulative_quantity")
-    private String cumulativeQuantity;
+    private Object cumulativeQuantity;
     @JsonProperty("average_price")
-    private String averagePrice;
+    private Object averagePrice;
     @JsonProperty("fees")
-    private String fees;
+    private Object fees;
     @JsonProperty("state")
-    private String state;
+    private Object state;
     @JsonProperty("type")
-    private String type;
+    private Object type;
     @JsonProperty("side")
-    private String side;
+    private Object side;
     @JsonProperty("time_in_force")
-    private String timeInForce;
+    private Object timeInForce;
     @JsonProperty("trigger")
-    private String trigger;
+    private Object trigger;
     @JsonProperty("price")
-    private String price;
+    private Object price;
     @JsonProperty("stop_price")
-    private String stopPrice;
+    private Object stopPrice;
     @JsonProperty("quantity")
-    private String quantity;
+    private Object quantity;
     @JsonProperty("reject_reason")
-    private String rejectReason;
+    private Object rejectReason;
     @JsonProperty("created_at")
-    private String createdAt;
+    private Object createdAt;
     @JsonProperty("updated_at")
-    private String updatedAt;
+    private Object updatedAt;
     @JsonProperty("last_transaction_at")
-    private String lastTransactionAt;
+    private Object lastTransactionAt;
     @JsonProperty("executions")
     private List<Object> executions;
     @JsonProperty("extended_hours")
-    private String extendedHours;
+    private Object extendedHours;
     @JsonProperty("override_dtbp_checks")
-    private String overrideDtbpChecks;
+    private Object overrideDtbpChecks;
     @JsonProperty("override_day_trade_checks")
-    private String overrideDayTradeChecks;
+    private Object overrideDayTradeChecks;
     @JsonProperty("response_category")
-    private String responseCategory;
+    private Object responseCategory;
     @JsonProperty("stop_triggered_at")
-    private String stopTriggeredAt;
+    private Object stopTriggeredAt;
     @JsonProperty("last_trail_price")
-    private String lastTrailPrice;
+    private Object lastTrailPrice;
     @JsonProperty("last_trail_price_updated_at")
-    private String lastTrailPriceUpdatedAt;
+    private Object lastTrailPriceUpdatedAt;
     @JsonProperty("total_notional")
     private Object totalNotional;
     @JsonProperty("executed_notional")
     private Object executedNotional;
     @JsonProperty("investment_schedule_id")
-    private String investmentScheduleId;
+    private Object investmentScheduleId;
 
-    public String getId() {
+    public Object getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Object id) {
         this.id = id;
     }
 
-    public String getRefId() {
+    public Object getRefId() {
         return refId;
     }
 
-    public void setRefId(String refId) {
+    public void setRefId(Object refId) {
         this.refId = refId;
     }
 
-    public String getUrl() {
+    public Object getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(Object url) {
         this.url = url;
     }
 
-    public String getAccount() {
+    public Object getAccount() {
         return account;
     }
 
-    public void setAccount(String account) {
+    public void setAccount(Object account) {
         this.account = account;
     }
 
-    public String getPosition() {
+    public Object getPosition() {
         return position;
     }
 
-    public void setPosition(String position) {
+    public void setPosition(Object position) {
         this.position = position;
     }
 
-    public String getCancel() {
+    public Object getCancel() {
         return cancel;
     }
 
-    public void setCancel(String cancel) {
+    public void setCancel(Object cancel) {
         this.cancel = cancel;
     }
 
-    public String getInstrument() {
+    public Object getInstrument() {
         return instrument;
     }
 
-    public void setInstrument(String instrument) {
+    public void setInstrument(Object instrument) {
         this.instrument = instrument;
     }
 
-    public String getCumulativeQuantity() {
+    public Object getCumulativeQuantity() {
         return cumulativeQuantity;
     }
 
-    public void setCumulativeQuantity(String cumulativeQuantity) {
+    public void setCumulativeQuantity(Object cumulativeQuantity) {
         this.cumulativeQuantity = cumulativeQuantity;
     }
 
-    public String getAveragePrice() {
+    public Object getAveragePrice() {
         return averagePrice;
     }
 
-    public void setAveragePrice(String averagePrice) {
+    public void setAveragePrice(Object averagePrice) {
         this.averagePrice = averagePrice;
     }
 
-    public String getFees() {
+    public Object getFees() {
         return fees;
     }
 
-    public void setFees(String fees) {
+    public void setFees(Object fees) {
         this.fees = fees;
     }
 
-    public String getState() {
+    public Object getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(Object state) {
         this.state = state;
     }
 
-    public String getType() {
+    public Object getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Object type) {
         this.type = type;
     }
 
-    public String getSide() {
+    public Object getSide() {
         return side;
     }
 
-    public void setSide(String side) {
+    public void setSide(Object side) {
         this.side = side;
     }
 
-    public String getTimeInForce() {
+    public Object getTimeInForce() {
         return timeInForce;
     }
 
-    public void setTimeInForce(String timeInForce) {
+    public void setTimeInForce(Object timeInForce) {
         this.timeInForce = timeInForce;
     }
 
-    public String getTrigger() {
+    public Object getTrigger() {
         return trigger;
     }
 
-    public void setTrigger(String trigger) {
+    public void setTrigger(Object trigger) {
         this.trigger = trigger;
     }
 
-    public String getPrice() {
+    public Object getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Object price) {
         this.price = price;
     }
 
-    public String getStopPrice() {
+    public Object getStopPrice() {
         return stopPrice;
     }
 
-    public void setStopPrice(String stopPrice) {
+    public void setStopPrice(Object stopPrice) {
         this.stopPrice = stopPrice;
     }
 
-    public String getQuantity() {
+    public Object getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(Object quantity) {
         this.quantity = quantity;
     }
 
-    public String getRejectReason() {
+    public Object getRejectReason() {
         return rejectReason;
     }
 
-    public void setRejectReason(String rejectReason) {
+    public void setRejectReason(Object rejectReason) {
         this.rejectReason = rejectReason;
     }
 
-    public String getCreatedAt() {
+    public Object getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Object createdAt) {
         this.createdAt = createdAt;
     }
 
-    public String getUpdatedAt() {
+    public Object getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
+    public void setUpdatedAt(Object updatedAt) {
         this.updatedAt = updatedAt;
     }
 
-    public String getLastTransactionAt() {
+    public Object getLastTransactionAt() {
         return lastTransactionAt;
     }
 
-    public void setLastTransactionAt(String lastTransactionAt) {
+    public void setLastTransactionAt(Object lastTransactionAt) {
         this.lastTransactionAt = lastTransactionAt;
     }
 
@@ -259,59 +262,59 @@ public class Order {
         this.executions = executions;
     }
 
-    public String getExtendedHours() {
+    public Object getExtendedHours() {
         return extendedHours;
     }
 
-    public void setExtendedHours(String extendedHours) {
+    public void setExtendedHours(Object extendedHours) {
         this.extendedHours = extendedHours;
     }
 
-    public String getOverrideDtbpChecks() {
+    public Object getOverrideDtbpChecks() {
         return overrideDtbpChecks;
     }
 
-    public void setOverrideDtbpChecks(String overrideDtbpChecks) {
+    public void setOverrideDtbpChecks(Object overrideDtbpChecks) {
         this.overrideDtbpChecks = overrideDtbpChecks;
     }
 
-    public String getOverrideDayTradeChecks() {
+    public Object getOverrideDayTradeChecks() {
         return overrideDayTradeChecks;
     }
 
-    public void setOverrideDayTradeChecks(String overrideDayTradeChecks) {
+    public void setOverrideDayTradeChecks(Object overrideDayTradeChecks) {
         this.overrideDayTradeChecks = overrideDayTradeChecks;
     }
 
-    public String getResponseCategory() {
+    public Object getResponseCategory() {
         return responseCategory;
     }
 
-    public void setResponseCategory(String responseCategory) {
+    public void setResponseCategory(Object responseCategory) {
         this.responseCategory = responseCategory;
     }
 
-    public String getStopTriggeredAt() {
+    public Object getStopTriggeredAt() {
         return stopTriggeredAt;
     }
 
-    public void setStopTriggeredAt(String stopTriggeredAt) {
+    public void setStopTriggeredAt(Object stopTriggeredAt) {
         this.stopTriggeredAt = stopTriggeredAt;
     }
 
-    public String getLastTrailPrice() {
+    public Object getLastTrailPrice() {
         return lastTrailPrice;
     }
 
-    public void setLastTrailPrice(String lastTrailPrice) {
+    public void setLastTrailPrice(Object lastTrailPrice) {
         this.lastTrailPrice = lastTrailPrice;
     }
 
-    public String getLastTrailPriceUpdatedAt() {
+    public Object getLastTrailPriceUpdatedAt() {
         return lastTrailPriceUpdatedAt;
     }
 
-    public void setLastTrailPriceUpdatedAt(String lastTrailPriceUpdatedAt) {
+    public void setLastTrailPriceUpdatedAt(Object lastTrailPriceUpdatedAt) {
         this.lastTrailPriceUpdatedAt = lastTrailPriceUpdatedAt;
     }
 
@@ -331,50 +334,50 @@ public class Order {
         this.executedNotional = executedNotional;
     }
 
-    public String getInvestmentScheduleId() {
+    public Object getInvestmentScheduleId() {
         return investmentScheduleId;
     }
 
-    public void setInvestmentScheduleId(String investmentScheduleId) {
+    public void setInvestmentScheduleId(Object investmentScheduleId) {
         this.investmentScheduleId = investmentScheduleId;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id='" + id + '\'' +
-                ", refId='" + refId + '\'' +
-                ", url='" + url + '\'' +
-                ", account='" + account + '\'' +
-                ", position='" + position + '\'' +
-                ", cancel='" + cancel + '\'' +
-                ", instrument='" + instrument + '\'' +
-                ", cumulativeQuantity='" + cumulativeQuantity + '\'' +
-                ", averagePrice='" + averagePrice + '\'' +
-                ", fees='" + fees + '\'' +
-                ", state='" + state + '\'' +
-                ", type='" + type + '\'' +
-                ", side='" + side + '\'' +
-                ", timeInForce='" + timeInForce + '\'' +
-                ", trigger='" + trigger + '\'' +
-                ", price='" + price + '\'' +
-                ", stopPrice='" + stopPrice + '\'' +
-                ", quantity='" + quantity + '\'' +
-                ", rejectReason='" + rejectReason + '\'' +
-                ", createdAt='" + createdAt + '\'' +
-                ", updatedAt='" + updatedAt + '\'' +
-                ", lastTransactionAt='" + lastTransactionAt + '\'' +
-                ", executions=" + executions +
-                ", extendedHours='" + extendedHours + '\'' +
-                ", overrideDtbpChecks='" + overrideDtbpChecks + '\'' +
-                ", overrideDayTradeChecks='" + overrideDayTradeChecks + '\'' +
-                ", responseCategory='" + responseCategory + '\'' +
-                ", stopTriggeredAt='" + stopTriggeredAt + '\'' +
-                ", lastTrailPrice='" + lastTrailPrice + '\'' +
-                ", lastTrailPriceUpdatedAt='" + lastTrailPriceUpdatedAt + '\'' +
-                ", totalNotional=" + totalNotional +
-                ", executedNotional=" + executedNotional +
-                ", investmentScheduleId='" + investmentScheduleId + '\'' +
-                '}';
+    public Order() {
+    }
+
+    public Order(Object id, Object refId, Object url, Object account, Object position, Object cancel, Object instrument, Object cumulativeQuantity, Object averagePrice, Object fees, Object state, Object type, Object side, Object timeInForce, Object trigger, Object price, Object stopPrice, Object quantity, Object rejectReason, Object createdAt, Object updatedAt, Object lastTransactionAt, List<Object> executions, Object extendedHours, Object overrideDtbpChecks, Object overrideDayTradeChecks, Object responseCategory, Object stopTriggeredAt, Object lastTrailPrice, Object lastTrailPriceUpdatedAt, Object totalNotional, Object executedNotional, Object investmentScheduleId) {
+        this.id = id;
+        this.refId = refId;
+        this.url = url;
+        this.account = account;
+        this.position = position;
+        this.cancel = cancel;
+        this.instrument = instrument;
+        this.cumulativeQuantity = cumulativeQuantity;
+        this.averagePrice = averagePrice;
+        this.fees = fees;
+        this.state = state;
+        this.type = type;
+        this.side = side;
+        this.timeInForce = timeInForce;
+        this.trigger = trigger;
+        this.price = price;
+        this.stopPrice = stopPrice;
+        this.quantity = quantity;
+        this.rejectReason = rejectReason;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.lastTransactionAt = lastTransactionAt;
+        this.executions = executions;
+        this.extendedHours = extendedHours;
+        this.overrideDtbpChecks = overrideDtbpChecks;
+        this.overrideDayTradeChecks = overrideDayTradeChecks;
+        this.responseCategory = responseCategory;
+        this.stopTriggeredAt = stopTriggeredAt;
+        this.lastTrailPrice = lastTrailPrice;
+        this.lastTrailPriceUpdatedAt = lastTrailPriceUpdatedAt;
+        this.totalNotional = totalNotional;
+        this.executedNotional = executedNotional;
+        this.investmentScheduleId = investmentScheduleId;
     }
 }

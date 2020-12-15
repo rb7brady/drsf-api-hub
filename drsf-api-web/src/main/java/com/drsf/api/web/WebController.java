@@ -1,14 +1,21 @@
 package com.drsf.api.web;
 
+import com.drsf.api.entities.AccountOrder;
+import com.drsf.api.postgres.repositories.AccountOrderRepository;
 import com.drsf.api.postgres.repositories.LinkedAccountRepository;
 import com.drsf.api.repositories.CompanyRepository;
 import com.drsf.api.repositories.DividendsRepository;
 import com.drsf.api.repositories.FinancialsRepository;
 import com.drsf.api.repositories.OrdersRepository;
+import com.drsf.api.robinhood.model.Order;
+import com.drsf.api.robinhood.serializers.AccountOrderSerializer;
+import com.dsrf.api.meta.HttpQueryMeta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class WebController {
@@ -26,6 +33,9 @@ public class WebController {
 
     @Autowired
     OrdersRepository ordersRepository;
+
+    @Autowired
+    AccountOrderRepository accountOrderRepository;
 
     @Autowired
     LinkedAccountRepository linkedAccountRepository;
@@ -64,14 +74,30 @@ public class WebController {
      */
 
     @GetMapping("/orders")
-    public String refreshOrders(@RequestParam(value = "username") String username) {
-        System.out.println(ordersRepository.query(username, null).toString());
-        return ordersRepository.query(username, null).toString();
+    public void refreshOrders(@RequestParam(value = "username") String username, @RequestParam(value = "createdAt", required = false) String createdAt) {
+        //List<Object> orders = ordersRepository.findAll(username, new HttpQueryMeta().putParameterizedOptionalNullExcluded("createdAt", createdAt));
+
+        ordersRepository
+                .findEnrichedOrders(username,new HttpQueryMeta().putParameterizedOptionalNullExcluded("createdAt", createdAt))
+                .log("Flux Log: ")
+                .subscribe(oe -> {
+                            System.out.println("Subscription Started");
+                            //System.out.println(oe.getInstrument());
+                    accountOrderRepository.save(oe);
+                },
+                        oe -> System.out.println("ERROR Encountered" + oe.toString()),
+                        () -> System.out.println("SUCCESS"));
+
+
+     //   ordersRepository.findAccountOrders(username,new HttpQueryMeta().putParameterizedOptionalNullExcluded("createdAt", createdAt))
+               // .subscribe(a -> System.out.println(a.toString()));
+//            AccountOrder accountOrder = AccountOrderSerializer.toEntity(order);
+//            if (accountOrder != null) {
+//                accountOrderRepository.save(accountOrder);
+//            }
+//        }
+        //return null;
     }
-//    @GetMapping("/orders")
-//    public String refreshOrders(@RequestParam(value = "username") String username, @RequestParam(value = "createdAt") String createdAt) {
-//        return ordersRepository.query(username, createdAt).toString();
-//    }
 
 
 
