@@ -14,6 +14,7 @@ import com.drsf.api.robinhood.service.RobinhoodPaginatedProxy;
 import com.dsrf.api.meta.HttpQueryMeta;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
+import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.scheduling.annotation.Async;
@@ -22,9 +23,11 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.lang.reflect.Field;
+import java.sql.SQLOutput;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Repository
@@ -97,66 +100,6 @@ public class OrdersRepository extends PaginatedRobinhoodRepository<PaginatedRobi
     }
 
 
-    public Flux<AccountOrder> findEnrichedOrders(String username, HttpQueryMeta query) {
-        linkedAccount = linkedAccountRepository.findByUsernameAndType(username, "ROBINHOOD");
-
-        query
-                .putBaseEndpoint(Endpoint.getBaseUrl())
-                .putParamaterizedURI(Endpoint.ORDERS.getURI())
-                .putHeader("Authorization", "bearer " + linkedAccount.getBearerToken());
-
-        Flux<AccountOrder> orderHose = getRawFlux(query).flatMap(
-                order -> robinhoodPaginatedProxy.queryAsMono(query.clearAll().putBaseEndpoint(order.get("instrument").toString()))
-                .flatMap(instrument -> {
-
-//                    Order resultOrder = new OrderBuilder()
-//                            .setType(order.get("type"))
-//                            .setSide(order.get("side"))
-//                            .setPrice(order.get("price"))
-//                            .setQuantity(order.get("quantity"))
-//                            .setCreatedAt(order.get("createdAt"))
-//                            .createOrder();
-
-
-                    Order baseOrder = new ObjectMapper().convertValue(order, Order.class);
-
-                    Arrays.stream(baseOrder.getClass().getDeclaredFields()).filter(
-                            f -> (f.isAnnotationPresent(RobinhoodResponsePropertyURL.class) && !f.getAnnotation(RobinhoodResponsePropertyURL.class).requiresAuthentication())
-                    ).forEach(
-                            f -> {
-                                try {
-                                    Class<?> clazz = Class.forName(baseOrder.getClass().getCanonicalName());
-                                    Field field = clazz.getDeclaredField(f.getName());
-                                    field.setAccessible(true);
-                                    field.set(baseOrder, ((LinkedHashMap<String, String>)instrument).get("symbol"));
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                    );
-
-
-
-                    return Mono.just(
-                           AccountOrderSerializer.toEntity(baseOrder)
-//                                    new OrderBuilder()
-//                                            //.setInstrument(((LinkedHashMap<String, String>)instrument).get("symbol"))
-//                                            .setType(order.get("type"))
-//                                            .setSide(order.get("side"))
-//                                            .setPrice(order.get("price"))
-//                                            .setQuantity(order.get("quantity"))
-//                                            .setCreatedAt(order.get("createdAt"))
-//                                            .createOrder());
-                    );
-                        }
-                )
-        );
-
-        System.out.println("DEBUG");
-        return orderHose;
-
-
-    }
 
 //    public Flux<Order> getOrdersFlux(HttpQueryMeta query) {
 //        return fetchPage(query).expand(
@@ -462,32 +405,221 @@ public class OrdersRepository extends PaginatedRobinhoodRepository<PaginatedRobi
         System.out.println("test");
      }
 
-    @Async
-    Mono<Object> getEnrichmentMono(Order result) {
-        List<String> urls =
-        Arrays.stream(result.getClass().getDeclaredFields()).filter(
-                f -> (f.isAnnotationPresent(RobinhoodResponsePropertyURL.class) && !f.getAnnotation(RobinhoodResponsePropertyURL.class).requiresAuthentication())
-        ).map(
-                f -> {
-                    try {
-                        Class<?> clazz = Class.forName(result.getClass().getCanonicalName());
-                        Field field = clazz.getDeclaredField(f.getName());
-                        field.setAccessible(true);
-                        String value = (String) field.get(result);
-                        return value;
-                        //Object linkedObject = robinhoodInstrumentCache.computeIfAbsent(value, k -> robinhoodProxy.queryAsMono(new HttpQueryMeta().putBaseEndpoint(k), Object.class).block());
-                        // field.set(result,linkedObject);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return null;
-                    }
-                }
-        ).collect(Collectors.toList());
-        if (urls != null) {
-            System.out.println(urls.size());
-            return robinhoodProxy.queryAsMono(new HttpQueryMeta().putBaseEndpoint(urls.get(0)), Object.class);
-        }
+//     public void start(String username, HttpQueryMeta query) {
+//         linkedAccount = linkedAccountRepository.findByUsernameAndType(username, "ROBINHOOD");
+//
+//         query
+//                 .putBaseEndpoint(Endpoint.getBaseUrl())
+//                 .putParamaterizedURI(Endpoint.ORDERS.getURI())
+//                 .putHeader("Authorization", "bearer " + linkedAccount.getBearerToken());
+//
+//
+//        getOrdersFlux(query).flatMap(new Function<Order, Publisher<?>>() {
+//            @Override
+//            public Publisher<?> apply(Order order) {
+//
+//            }
+//        })
+//     }
+    public Flux<Order> findAllForUser(String username, HttpQueryMeta query) {
+        linkedAccount = linkedAccountRepository.findByUsernameAndType(username, "ROBINHOOD");
+
+        query
+                .putBaseEndpoint(Endpoint.getBaseUrl())
+                .putParamaterizedURI(Endpoint.ORDERS.getURI())
+                .putHeader("Authorization", "bearer " + linkedAccount.getBearerToken());
+
+        return getOrdersFlux(query);
+    }
+
+    public Flux<Order> findOrders(String username, HttpQueryMeta query) {
+        linkedAccount = linkedAccountRepository.findByUsernameAndType(username, "ROBINHOOD");
+
+        query
+                .putBaseEndpoint(Endpoint.getBaseUrl())
+                .putParamaterizedURI(Endpoint.ORDERS.getURI())
+                .putHeader("Authorization", "bearer " + linkedAccount.getBearerToken());
+
+        //Flux<Order> orderHose = getRawFlux(query).flatMap(r -> new ObjectMapper().convertValue(r, Order.class));
+
+        System.out.println("DEBUG");
         return null;
     }
+
+
+    public Flux<Order> findAllWithInstruments(String username, HttpQueryMeta query) {
+        linkedAccount = linkedAccountRepository.findByUsernameAndType(username, "ROBINHOOD");
+
+        query
+                .putBaseEndpoint(Endpoint.getBaseUrl())
+                .putParamaterizedURI(Endpoint.ORDERS.getURI())
+                .putHeader("Authorization", "bearer " + linkedAccount.getBearerToken());
+
+        return  getRawFlux(query).flatMap(r -> {
+                    Order o = new ObjectMapper().convertValue(r, Order.class);
+                    return robinhoodPaginatedProxy.queryAsMono(new HttpQueryMeta().putBaseEndpoint(o.getInstrument().toString()))
+                            .flatMap(instrument -> {
+                                        Arrays.stream(o.getClass().getDeclaredFields()).filter(
+                                                f -> (f.isAnnotationPresent(RobinhoodResponsePropertyURL.class) && !f.getAnnotation(RobinhoodResponsePropertyURL.class).requiresAuthentication())
+                                        ).forEach(
+                                                f -> {
+                                                    try {
+                                                        Class<?> clazz = Class.forName(o.getClass().getCanonicalName());
+                                                        Field field = clazz.getDeclaredField(f.getName());
+                                                        field.setAccessible(true);
+                                                        field.set(o, ((LinkedHashMap<String, String>) instrument).get("symbol"));
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                        );
+                                        return Mono.just(o);
+                                    }
+                            );
+                });
+    }
+    public Flux<AccountOrder> findEnrichedOrders(String username, HttpQueryMeta query) {
+        linkedAccount = linkedAccountRepository.findByUsernameAndType(username, "ROBINHOOD");
+
+        query
+                .putBaseEndpoint(Endpoint.getBaseUrl())
+                .putParamaterizedURI(Endpoint.ORDERS.getURI())
+                .putHeader("Authorization", "bearer " + linkedAccount.getBearerToken());
+
+        Flux<AccountOrder> orderHose = getRawFlux(query).flatMap(orderLinkedList -> {
+                Order baseOrder = new ObjectMapper().convertValue(orderLinkedList, Order.class);
+                    return robinhoodPaginatedProxy.queryAsMono(query.clearAll().putBaseEndpoint(orderLinkedList.get("instrument").toString()))
+                            .flatMap(instrument -> {
+
+                                        Arrays.stream(baseOrder.getClass().getDeclaredFields()).filter(
+                                                f -> (f.isAnnotationPresent(RobinhoodResponsePropertyURL.class) && !f.getAnnotation(RobinhoodResponsePropertyURL.class).requiresAuthentication())
+                                        ).forEach(
+                                                f -> {
+                                                    try {
+                                                        Class<?> clazz = Class.forName(baseOrder.getClass().getCanonicalName());
+                                                        Field field = clazz.getDeclaredField(f.getName());
+                                                        field.setAccessible(true);
+                                                        field.set(baseOrder, ((LinkedHashMap<String, String>) instrument).get("symbol"));
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                        );
+                                        return Mono.just(AccountOrderSerializer.toEntity(baseOrder));
+                                    }
+                            );
+                }
+        );
+
+        System.out.println("DEBUG");
+        return orderHose;
+
+
+    }
+
+    public Flux<Field> findURLFields(Class responseClass) {
+        return Flux.fromStream(Arrays
+                .stream(responseClass.getDeclaredFields())
+                .filter(f ->
+                        (
+                                f.isAnnotationPresent(RobinhoodResponsePropertyURL.class) &&
+                                !f.getAnnotation(RobinhoodResponsePropertyURL.class).requiresAuthentication()
+                        )
+                )
+        );
+    }
+
+//    public Flux<Order> findEnrichedOrdersGen(String username, HttpQueryMeta query) {
+//        linkedAccount = linkedAccountRepository.findByUsernameAndType(username, "ROBINHOOD");
+//
+//        query
+//                .putBaseEndpoint(Endpoint.getBaseUrl())
+//                .putParamaterizedURI(Endpoint.ORDERS.getURI())
+//                .putHeader("Authorization", "bearer " + linkedAccount.getBearerToken());
+//
+//        Flux<Order> orderHose = getRawFlux(query).map(
+//                rawOrderString -> new ObjectMapper().convertValue(rawOrderString, Order.class)
+//        ).mergeOrderedWith()
+//
+//        //.zipWith(findURLFields(Order.class), (order, field) -> {
+//            try {
+//                Class<?> clazz = null;
+//                clazz = Class.forName(order.getClass().getCanonicalName());
+//                Field localField = clazz.getDeclaredField(field.getName());
+//                localField.setAccessible(true);
+//                return robinhoodPaginatedProxy.queryAsMono(query.clearAll().putBaseEndpoint((String)localField.get(order)))
+//                        .flatMap(lookupObject -> {
+//                            System.out.println("RESPONSE OBJECT OBTAINED");
+//                            try {
+//                                localField.set(order, (Object) lookupObject);
+//                            } catch (IllegalAccessException e) {
+//                                e.printStackTrace();
+//                                System.out.println("ILLEGAL ACCESS EXCEPTION.");
+//                            }
+//                            return Mono.just(order);
+//                        });
+//            } catch (Exception e) {
+//                System.out.println("CLASS CAST OR ACCESIBILITY EXCPETION");
+//                e.printStackTrace();
+//                return Mono.empty();
+//            }
+//        }).
+
+//                .flatMap(new Function<Order, Publisher<?>>() {
+//            @Override
+//            public Publisher<?> apply(Order order) {
+//                Flux<Field> urlFields = findURLFields(order.getClass());
+//                //Flux.zip()
+//                //Arrays.stream(order.getClass().getDeclaredFields())
+//            }
+       // })
+
+
+//                .flatMap(orderLinkedList -> {
+//                    Order baseOrder = new ObjectMapper().convertValue(orderLinkedList, Order.class);
+//
+//                    robinhoodPaginatedProxy.queryAsMono(query.clearAll().putBaseEndpoint((String)field.get(baseOrder))).expand(
+//
+//                    )
+//
+////                    Flux.fromIterable(Arrays.stream(baseOrder.getClass().getDeclaredFields()).filter(
+////                            f -> (f.isAnnotationPresent(RobinhoodResponsePropertyURL.class) && !f.getAnnotation(RobinhoodResponsePropertyURL.class).requiresAuthentication())
+////                    ))
+//
+//
+//                    Arrays.stream(baseOrder.getClass().getDeclaredFields())
+//                            .filter(f -> (f.isAnnotationPresent(RobinhoodResponsePropertyURL.class) && !f.getAnnotation(RobinhoodResponsePropertyURL.class).requiresAuthentication()))
+//                            .forEach(robinhoodLinkedField -> {
+//                                try {
+//                                    Class<?> clazz = null;
+//                                    clazz = Class.forName(baseOrder.getClass().getCanonicalName());
+//                                    Field field = clazz.getDeclaredField(robinhoodLinkedField.getName());
+//                                    field.setAccessible(true);
+//
+//                                    robinhoodPaginatedProxy.queryAsMono(query.clearAll().putBaseEndpoint((String)field.get(baseOrder)))
+//                                            .flatMap(enrichedURL -> {
+//                                                System.out.println("ENRICHED URL");
+//                                                        try {
+//
+//                                                            field.set(baseOrder, (LinkedHashMap)enrichedURL);
+//                                                        } catch (Exception e) {
+//                                                            e.printStackTrace();
+//                                                        }
+//                                               return Mono.just(baseOrder);
+//                                            });
+//
+//                                } catch (Exception e) {
+//                                    e.printStackTrace();
+//                                }
+//                            });
+//                    return Mono.just(baseOrder);
+//                }
+//        );
+//
+//        System.out.println("DEBUG");
+        //return orderHose;
+
+
+   // }
 
 }

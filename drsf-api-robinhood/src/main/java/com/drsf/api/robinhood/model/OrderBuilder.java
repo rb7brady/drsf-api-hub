@@ -25,7 +25,7 @@ public class OrderBuilder {
     private Object createdAt;
     private Object updatedAt;
     private Object lastTransactionAt;
-    private List<Object> executions;
+    private List<Execution> executions;
     private Object extendedHours;
     private Object overrideDtbpChecks;
     private Object overrideDayTradeChecks;
@@ -147,7 +147,7 @@ public class OrderBuilder {
         return this;
     }
 
-    public OrderBuilder setExecutions(List<Object> executions) {
+    public OrderBuilder setExecutions(List<Execution> executions) {
         this.executions = executions;
         return this;
     }

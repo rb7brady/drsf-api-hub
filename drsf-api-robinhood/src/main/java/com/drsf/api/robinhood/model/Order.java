@@ -56,10 +56,10 @@ public class Order {
     @JsonProperty("last_transaction_at")
     private Object lastTransactionAt;
     @JsonProperty("executions")
-    private List<Object> executions;
+    private List<Execution> executions;
     @JsonProperty("extended_hours")
     private Object extendedHours;
-    @JsonProperty("override_dtbp_checks")
+    @JsonProperty("  ")
     private Object overrideDtbpChecks;
     @JsonProperty("override_day_trade_checks")
     private Object overrideDayTradeChecks;
@@ -254,11 +254,11 @@ public class Order {
         this.lastTransactionAt = lastTransactionAt;
     }
 
-    public List<Object> getExecutions() {
+    public List<Execution> getExecutions() {
         return executions;
     }
 
-    public void setExecutions(List<Object> executions) {
+    public void setExecutions(List<Execution> executions) {
         this.executions = executions;
     }
 
@@ -345,7 +345,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Object id, Object refId, Object url, Object account, Object position, Object cancel, Object instrument, Object cumulativeQuantity, Object averagePrice, Object fees, Object state, Object type, Object side, Object timeInForce, Object trigger, Object price, Object stopPrice, Object quantity, Object rejectReason, Object createdAt, Object updatedAt, Object lastTransactionAt, List<Object> executions, Object extendedHours, Object overrideDtbpChecks, Object overrideDayTradeChecks, Object responseCategory, Object stopTriggeredAt, Object lastTrailPrice, Object lastTrailPriceUpdatedAt, Object totalNotional, Object executedNotional, Object investmentScheduleId) {
+    public Order(Object id, Object refId, Object url, Object account, Object position, Object cancel, Object instrument, Object cumulativeQuantity, Object averagePrice, Object fees, Object state, Object type, Object side, Object timeInForce, Object trigger, Object price, Object stopPrice, Object quantity, Object rejectReason, Object createdAt, Object updatedAt, Object lastTransactionAt, List<Execution> executions, Object extendedHours, Object overrideDtbpChecks, Object overrideDayTradeChecks, Object responseCategory, Object stopTriggeredAt, Object lastTrailPrice, Object lastTrailPriceUpdatedAt, Object totalNotional, Object executedNotional, Object investmentScheduleId) {
         this.id = id;
         this.refId = refId;
         this.url = url;

@@ -1,7 +1,9 @@
 package com.drsf.api.web;
 
 import com.drsf.api.entities.AccountOrder;
+import com.drsf.api.entities.Execution;
 import com.drsf.api.postgres.repositories.AccountOrderRepository;
+import com.drsf.api.postgres.repositories.ExecutionRepository;
 import com.drsf.api.postgres.repositories.LinkedAccountRepository;
 import com.drsf.api.repositories.CompanyRepository;
 import com.drsf.api.repositories.DividendsRepository;
@@ -9,11 +11,13 @@ import com.drsf.api.repositories.FinancialsRepository;
 import com.drsf.api.repositories.OrdersRepository;
 import com.drsf.api.robinhood.model.Order;
 import com.drsf.api.robinhood.serializers.AccountOrderSerializer;
+import com.drsf.api.robinhood.serializers.ExecutionSerializer;
 import com.dsrf.api.meta.HttpQueryMeta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -40,6 +44,8 @@ public class WebController {
     @Autowired
     LinkedAccountRepository linkedAccountRepository;
 
+    @Autowired
+    ExecutionRepository executionRepository;
     /**
      *POLYGON QUERIES
      */
@@ -66,6 +72,7 @@ public class WebController {
 //    }
     @GetMapping("/financials")
     public String refreshFinancials(@RequestParam(value = "sym") String sym, @RequestParam(value = "limit", required = false) String limit, @RequestParam(value = "type", required = false) String type,@RequestParam(value = "sort",required = false) String sort) {
+
         return financialsRepository.query(username, sym, limit, type, sort).toString();
     }
 
@@ -77,17 +84,39 @@ public class WebController {
     public void refreshOrders(@RequestParam(value = "username") String username, @RequestParam(value = "createdAt", required = false) String createdAt) {
         //List<Object> orders = ordersRepository.findAll(username, new HttpQueryMeta().putParameterizedOptionalNullExcluded("createdAt", createdAt));
 
-        ordersRepository
-                .findEnrichedOrders(username,new HttpQueryMeta().putParameterizedOptionalNullExcluded("createdAt", createdAt))
-                .log("Flux Log: ")
-                .subscribe(oe -> {
-                            System.out.println("Subscription Started");
-                            //System.out.println(oe.getInstrument());
-                    accountOrderRepository.save(oe);
-                },
-                        oe -> System.out.println("ERROR Encountered" + oe.toString()),
-                        () -> System.out.println("SUCCESS"));
 
+        Flux<Order> orders = ordersRepository.findAllWithInstruments(username, new HttpQueryMeta().putParameterizedOptionalNullExcluded("createdAt", createdAt));
+
+
+        orders.subscribe(o -> {
+            AccountOrder accountOrder = AccountOrderSerializer.toEntity(o);
+            accountOrderRepository.save(accountOrder);
+
+            List<Execution> executions = ExecutionSerializer.toEntities(o.getExecutions());
+            executions.forEach(e -> e.setAccountOrder(accountOrder));
+            executionRepository.saveAll(executions);
+        });
+
+
+//        ordersRepository
+//                .findEnrichedOrders(username,new HttpQueryMeta().putParameterizedOptionalNullExcluded("createdAt", createdAt))
+//                .log("Flux Log: ")
+//                .subscribe(oe -> {
+//                            System.out.println("Subscription Started");
+//                            //System.out.println(oe.getInstrument());
+//                    accountOrderRepository.save(oe);
+//                },
+//                        oe -> System.out.println("ERROR Encountered" + oe.toString()),
+//                        () -> System.out.println("SUCCESS"));
+
+        //ordersRepository.findEnrichedOrdersGen(username, new HttpQueryMeta().putParameterizedOptionalNullExcluded("createdAt", createdAt))
+//                .subscribe(a -> {
+//                    System.out.println(a.toString());
+//                    AccountOrder accountOrder = AccountOrderSerializer.toEntity(a);
+//                    if (accountOrder != null) {
+//                        accountOrderRepository.save(accountOrder);
+//                    }
+//                });
 
      //   ordersRepository.findAccountOrders(username,new HttpQueryMeta().putParameterizedOptionalNullExcluded("createdAt", createdAt))
                // .subscribe(a -> System.out.println(a.toString()));

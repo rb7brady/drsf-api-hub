@@ -4,6 +4,10 @@ import net.bytebuddy.dynamic.scaffold.MethodGraph;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 public class AccountOrder {
@@ -20,6 +24,8 @@ public class AccountOrder {
     protected Double quantity;
     protected Date submitted;
     protected String tif;
+    @OneToMany(cascade=ALL, mappedBy="accountOrder")
+    protected Set<Execution> executions;
 
     public AccountOrder() {
 
@@ -96,6 +102,14 @@ public class AccountOrder {
     public void setTif(String tif) {
         this.tif = tif;
     }
+
+//    public List<Execution> getExecutions() {
+//        return executions;
+//    }
+//
+//    public void setExecutions(List<Execution> executions) {
+//        this.executions = executions;
+//    }
 
     public AccountOrder(long id, LinkedAccount linkedAccount, String ticker, Boolean buy, String type, Double price, Double quantity, Date submitted, String tif) {
         Id = id;
