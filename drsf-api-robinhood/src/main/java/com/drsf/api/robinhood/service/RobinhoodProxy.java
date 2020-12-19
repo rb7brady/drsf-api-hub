@@ -2,6 +2,7 @@ package com.drsf.api.robinhood.service;
 
 import com.drsf.api.robinhood.model.PaginatedRobinhoodHTTPResponse;
 import com.dsrf.api.meta.HttpQueryMeta;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
@@ -11,9 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 

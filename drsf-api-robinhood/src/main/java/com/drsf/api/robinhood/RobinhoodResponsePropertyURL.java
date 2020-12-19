@@ -5,9 +5,5 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RobinhoodResponsePropertyURL {
-
-
-    public boolean requiresAuthentication() default false;
-
-
+     boolean requiresAuthentication() default false;
 }

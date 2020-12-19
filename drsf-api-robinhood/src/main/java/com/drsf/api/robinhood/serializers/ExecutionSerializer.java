@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 public class ExecutionSerializer {
 
-
     public static Execution toEntity(com.drsf.api.robinhood.model.Execution execution) {
         if (execution != null) {
             Execution executionEntity = new Execution();
@@ -29,7 +28,6 @@ public class ExecutionSerializer {
             };
             executionEntity.setQuantity(execution.getQuantity()==null?null:Double.parseDouble((String)execution.getQuantity()));
             executionEntity.setPrice(execution.getPrice()==null?null:Double.parseDouble((String)execution.getPrice()));
-
 
             return executionEntity;
         }

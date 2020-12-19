@@ -26,26 +26,16 @@ public class WebController {
     //TODO put this into an ApplicationContext, and remove from parameter altogether.
     public static final String username = "";
 
-    @Autowired
-    CompanyRepository companyRepository;
+    //Repositories for external rest APIs. (Polygon, Robinhood etc..)
+    @Autowired CompanyRepository companyRepository;
+    @Autowired FinancialsRepository financialsRepository;
+    @Autowired DividendsRepository dividendsRepository;
+    @Autowired OrdersRepository ordersRepository;
 
-    @Autowired
-    FinancialsRepository financialsRepository;
-
-    @Autowired
-    DividendsRepository dividendsRepository;
-
-    @Autowired
-    OrdersRepository ordersRepository;
-
-    @Autowired
-    AccountOrderRepository accountOrderRepository;
-
-    @Autowired
-    LinkedAccountRepository linkedAccountRepository;
-
-    @Autowired
-    ExecutionRepository executionRepository;
+    //ORM Repositories
+    @Autowired AccountOrderRepository accountOrderRepository;
+    @Autowired LinkedAccountRepository linkedAccountRepository;
+    @Autowired ExecutionRepository executionRepository;
     /**
      *POLYGON QUERIES
      */
@@ -58,21 +48,9 @@ public class WebController {
     public String refreshDividends(@RequestParam(value = "sym") String sym) {
         return dividendsRepository.query(username, sym).toString();
     }
-//    @GetMapping(value="/financials")
-//    public String refreshFinancials(@RequestParam(value = "sym") String sym) {
-//        return financialsRepository.query(username, sym, null, null, null).toString();
-//    }
-//    @GetMapping(value="/financials")
-//    public String refreshFinancials(@RequestParam(value = "sym") String sym, @RequestParam(value = "limit") String limit) {
-//        return financialsRepository.query(username, sym, limit, null, null).toString();
-//    }
-//    @GetMapping("/financials")
-//    public String refreshFinancials(@RequestParam(value = "sym") String sym, @RequestParam(value = "limit") String limit, @RequestParam(value = "type") String type) {
-//        return financialsRepository.query(username, sym, limit, type, null).toString();
-//    }
+
     @GetMapping("/financials")
     public String refreshFinancials(@RequestParam(value = "sym") String sym, @RequestParam(value = "limit", required = false) String limit, @RequestParam(value = "type", required = false) String type,@RequestParam(value = "sort",required = false) String sort) {
-
         return financialsRepository.query(username, sym, limit, type, sort).toString();
     }
 
@@ -82,11 +60,7 @@ public class WebController {
 
     @GetMapping("/orders")
     public void refreshOrders(@RequestParam(value = "username") String username, @RequestParam(value = "createdAt", required = false) String createdAt) {
-        //List<Object> orders = ordersRepository.findAll(username, new HttpQueryMeta().putParameterizedOptionalNullExcluded("createdAt", createdAt));
-
-
         Flux<Order> orders = ordersRepository.findAllWithInstruments(username, new HttpQueryMeta().putParameterizedOptionalNullExcluded("createdAt", createdAt));
-
 
         orders.subscribe(o -> {
             AccountOrder accountOrder = AccountOrderSerializer.toEntity(o);
@@ -97,35 +71,6 @@ public class WebController {
             executionRepository.saveAll(executions);
         });
 
-
-//        ordersRepository
-//                .findEnrichedOrders(username,new HttpQueryMeta().putParameterizedOptionalNullExcluded("createdAt", createdAt))
-//                .log("Flux Log: ")
-//                .subscribe(oe -> {
-//                            System.out.println("Subscription Started");
-//                            //System.out.println(oe.getInstrument());
-//                    accountOrderRepository.save(oe);
-//                },
-//                        oe -> System.out.println("ERROR Encountered" + oe.toString()),
-//                        () -> System.out.println("SUCCESS"));
-
-        //ordersRepository.findEnrichedOrdersGen(username, new HttpQueryMeta().putParameterizedOptionalNullExcluded("createdAt", createdAt))
-//                .subscribe(a -> {
-//                    System.out.println(a.toString());
-//                    AccountOrder accountOrder = AccountOrderSerializer.toEntity(a);
-//                    if (accountOrder != null) {
-//                        accountOrderRepository.save(accountOrder);
-//                    }
-//                });
-
-     //   ordersRepository.findAccountOrders(username,new HttpQueryMeta().putParameterizedOptionalNullExcluded("createdAt", createdAt))
-               // .subscribe(a -> System.out.println(a.toString()));
-//            AccountOrder accountOrder = AccountOrderSerializer.toEntity(order);
-//            if (accountOrder != null) {
-//                accountOrderRepository.save(accountOrder);
-//            }
-//        }
-        //return null;
     }
 
 

@@ -28,12 +28,7 @@ public class PolygonProxy implements IProxy {
 
     @Override
     public Mono<Object> queryAsMono(HttpQueryMeta queryMeta) {
-       // WebClient webclient = buildWebClient((String)queryMeta.get("URL"));
 
-        //WebClient.ResponseSpec responseSpec = webclient.get().uri(getFullParamaterizedURL(queryMeta),queryMeta.getAllParamValues().toArray()).accept(MediaType.APPLICATION_JSON).retrieve();
-//        return webclient.get().uri(getFullParamaterizedURL(queryMeta),queryMeta.getAllParamValues().toArray()).accept(MediaType.APPLICATION_JSON).exchange().flatMap(
-//                clientResponse -> clientResponse.bodyToMono(LinkedHashMap.class).
-        //return responseSpec.bodyToMono(LinkedHashMap.class);
         return buildWebClient((String)queryMeta.get("URL")).get()
                 .uri(getFullParamaterizedURL(queryMeta),queryMeta.getAllParamValues().toArray())
                 .retrieve().bodyToMono(Object.class);
